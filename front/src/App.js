@@ -2,21 +2,15 @@ import React, { Component } from "react";
 import axios from "axios";
 
 export default class App extends Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {text: ''}
-  }
-
   state = {
-    text: 'héhé'
+    posts: []
   }
 
   componentDidMount() {
-    axios.get('http://localhost:9000/testAPI')
+    axios.get('http://localhost:9000/posts')
       .then(res => {
-        const data = res.router;
-        this.setState({text: `${data}`})
+        const posts = res.data;
+        this.setState({ posts })
       })
   }
 
@@ -24,7 +18,9 @@ export default class App extends Component {
     return (
       <div className="APITest">
         <h1>yooooo</h1>
-        <p id="saidTest">{ this.text }</p>
+        <ul>
+          {this.state.posts.map(posts => <li>{posts.PTitle}</li>)}
+        </ul>
       </div>
     );
   }
