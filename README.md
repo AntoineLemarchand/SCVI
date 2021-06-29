@@ -8,7 +8,7 @@ SCVI est un blog (si ça vous intéresse) écrit en React.JS avec des API REST E
   * react.js
 * Backend
   * Express.js
-  * Mysql (mariaDB)
+  * Mysql (mariaDB+phpMyAdmin)
 
 # Licence
 MIT
