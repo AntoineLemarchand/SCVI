@@ -4,7 +4,7 @@ var db = require('./database');
 
 router.get('/', function(req, res, next) {
 
-  db.query('SELECT * FROM blog.POST', function(err,results) {
+  db.query('SELECT PostID, PTitle, PBody, PSummary, Uname as Writer, PDate FROM blog.POST JOIN blog.USER AS Writer ON `PAuthorID#` = Writer.UserID', function(err,results) {
 
     if(err){
       console.log("not connected")
