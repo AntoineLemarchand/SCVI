@@ -42,7 +42,7 @@ export default class ShowPosts extends Component {
     return (
       <div id="Posts" style={PostsStyle}>
         {this.state.api.map(api =>
-        <Link key={api.PostID} to={{pathname: ("/Post/"+api.PostID), 
+        <Link key={api.PostID} to={{pathname: (`/post/${api.PostID}`), 
           state: {
             id: api.PostID, 
             Title: api.PTitle, 

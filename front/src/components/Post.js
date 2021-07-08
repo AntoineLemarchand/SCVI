@@ -23,7 +23,7 @@ export default class Post extends Component {
   state = {
     Comments: [],
     Post: {},
-    PostID: window.location.pathname.slice(-1),
+    PostID: this.props.match.params.id,
   }
 
   componentDidMount() {

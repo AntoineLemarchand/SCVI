@@ -68,7 +68,6 @@ export default class CommentBox extends Component {
   render() {
     return (
       <form style={CommentStyle} onSubmit={this.onSubmit} >
-        <p>{`${this.state.userId} veut commenter ' ${this.state.cbody} ' sur ${this.state.postId}`}</p>
         <label>{this.state.username}</label>
         <textarea onChange={this.updateArea} rows="4" placeholder="I think you are the worst writer in existence blah blah blah" style={TextAreaStyle}/>
         <button style={ButtonStyle} type='submit'>Comment</button>

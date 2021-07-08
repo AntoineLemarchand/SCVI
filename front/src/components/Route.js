@@ -5,6 +5,7 @@ import NotFound from "./NotFound";
 import Post from "./Post";
 import Login from "./login";
 import Register from "./Registration";
+import makePost from "./MakePost"
 
 export default class Router extends Component {
   render() {
@@ -12,7 +13,8 @@ export default class Router extends Component {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={ ShowPosts }/>
-          <Route path="/Post/:id" component={ Post }/>
+          <Route path="/post/:id" component={ Post }/>
+          <Route path="/poster" component={ makePost }/>
           <Route path="/connexion" component={ Login }/>
           <Route path="/inscription" component= { Register }/>
           <Route component={ NotFound }/>

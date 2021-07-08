@@ -10,7 +10,7 @@ const PORT = 9000;
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 
-whitelist = ['/','/posts', '/post','/inscription', '/connexion', '/comments', '/postComment']
+whitelist = ['/','/posts', '/post','/inscription', '/connexion', '/comments', '/postComment', 'makePost']
 
 app.all(whitelist, (req, res, next) => {
   res.header("Access-Control-Allow-origin", 'http://localhost:3000');
@@ -36,6 +36,22 @@ app.post('/post', (req, res) => {
       res.status(400).send('')
     } else {
       res.send(results)
+      console.log(`Post ${PostID} chargé`)
+    }
+  })
+})
+
+app.post('/makePost', (req, res) => {
+  const author = req.body.poster;
+  const title = req.body.title;
+  const summary = req.body.summary;
+  const body = req.body.body;
+  db.query('INSERT INTO blog.POST (`PAuthorID#`, PTitle, PSummary ,PBody) VALUES (?, ?, ?, ?)',[author, title, summary, body], function(err) {
+    if (err) {
+      res.status(400).send(err)
+    } else {
+      console.log(`Post '${title}' écrit par ${author}`)
+      res.end()
     }
   })
 })
