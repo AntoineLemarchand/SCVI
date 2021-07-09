@@ -2,45 +2,45 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 const containerStyle = {
-  display: 'flex',
-  alignItems: 'flex-start',
-  justifyContent: 'center',
-  height: '90vh'
+  display: "flex",
+  alignItems: "flex-start",
+  justifyContent: "center",
+  height: "90vh"
 }
 
 const formStyle = {
-  width: '50vw',
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'space-evenly',
-  marginTop: '20vh',
-  backgroundColor: '#1d2021',
-  padding: '30px',
-  borderRadius: '20px',
-  boxShadow: '5px 5px 10px black',
+  width: "50vw",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "space-evenly",
+  marginTop: "20vh",
+  backgroundColor: "#1d2021",
+  padding: "30px",
+  borderRadius: "20px",
+  boxShadow: "5px 5px 10px black",
 }
 
 const textInputStyle = {
-  marginTop: '2vh',
-  paddingLeft: '15px',
-  height: '4vh',
-  fontSize: '2vh',
-  border: 'none',
-  borderRadius: '15px',
-  backgroundColor: '#504945',
-  color: '#ebdbb2'
+  marginTop: "2vh",
+  paddingLeft: "15px",
+  height: "4vh",
+  fontSize: "2vh",
+  border: "none",
+  borderRadius: "15px",
+  backgroundColor: "#504945",
+  color: "#ebdbb2"
 }
 
 const buttonStyle = {
-  width: '20vw',
-  height: '5vh',
-  margin: '2vh 0 0 auto',
-  border: 'none',
-  borderRadius: '15px',
-  backgroundColor: '#fe8019',
-  color: '#1d2021',
-  boxShadow: '2.5px 2.5px 5px',
-  cursor: 'pointer'
+  width: "20vw",
+  height: "5vh",
+  margin: "2vh 0 0 auto",
+  border: "none",
+  borderRadius: "15px",
+  backgroundColor: "#fe8019",
+  color: "#1d2021",
+  boxShadow: "2.5px 2.5px 5px",
+  cursor: "pointer"
 }
 
 export default class register extends Component {
@@ -65,7 +65,7 @@ export default class register extends Component {
     const confirmPassword = this.state.confirmPassword
     if (data.password === confirmPassword) {
       axios.post(url,data)
-        .then(res => {
+        .then(() => {
           alert("Compte créé !")
           window.location.href = "/connexion"
         })

@@ -46,6 +46,7 @@ export default class Post extends Component {
         <ReactMarkdown>{this.state.Post.Body}</ReactMarkdown>
         <div id="Comments">
           <h2>Commentaires </h2>
+          {this.state.Comments.length === 0 ? <p>Pas de commentaire pour le moment... Ecrivez en un !</p> : ''}
           <CommentBox post={this.state.PostID}/>
           {
             this.state.Comments.map ((comment, index) => 
@@ -59,7 +60,6 @@ export default class Post extends Component {
               }
           )
         }
-          {this.state.Comments.length === 0 ? <p>Pas de commentaire pour le moment... Ecrivez en un !</p> : ''}
         </div>
       </div>
     )}

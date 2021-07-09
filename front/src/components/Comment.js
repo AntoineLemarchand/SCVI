@@ -47,22 +47,31 @@ export default class CommentBox extends Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem('loggedin')) {
-      this.setState({username: localStorage.getItem('username')})
-      this.setState({userId: localStorage.getItem('userId')})
+    if (document.cookie !== '') {
+      const cookie = JSON.parse(decodeURIComponent(document.cookie).slice(11))
+      this.setState({
+        userId: cookie.userID,
+        username: cookie.username,
+      });
     } else {
-      this.setState({username: "Anonyme"})
+      this.setState({
+        userId: 100,
+        username: 'Anonyme',
+      })
     }
   }
 
 
   onSubmit = (e) => {
     e.preventDefault();
-    const commenter = this.state.userId;
-    const post = this.state.postId;
-    const cbody = this.state.cbody;
-    axios.post("http://localhost:9000/postComment", {commenter: commenter, post: post, cbody: cbody});
-    window.location.reload();
+    const data = {
+      commenter: this.state.userId,
+      post: this.state.postId,
+      cbody: this.state.cbody
+    }
+    axios.post("http://localhost:9000/makeComment", data)
+      .catch(err => console.log(err))
+    setTimeout(()=>{window.location.reload()}, 1500);
   }
 
   render() {

@@ -15,10 +15,15 @@ const headerStyle = {
   justifyContent: "space-between"
 }
 
+const headerLeft = {
+  display: 'flex',
+  flexDirection: 'row',
+}
+
 const selectStyle = {
   color: "#b8bb26",
   fontSize: "4vh",
-  margin: "0 4vh 0 4vh",
+  margin: "0 2vh 0 2vh",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -32,7 +37,7 @@ const searchboxStyle = {
     border: "none",
     borderRadius: "10px 0 0 10px",
     height: "2.45vh",
-    width: "30vw",
+    width: "20vw",
     padding: "1vh",
     backgroundColor: "#504945",
     color: "#ebebb2"
@@ -58,6 +63,7 @@ export default class Header extends Component {
     username: '',
     userlogo: '',
     action: '',
+    role: '',
   }
 
   Connect = (e) => {
@@ -67,16 +73,16 @@ export default class Header extends Component {
 
   Disconnect = (e) => {
     e.preventDefault();
-    localStorage.removeItem("loggedin");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("username");
-    window.location.reload();
+    document.cookie = "userData=;path='/';expires=Thu, 01 Jan 1970 00:00:00 GMT;";
+    document.location.reload();
   }
 
   componentDidMount() {
-    if (localStorage.getItem('loggedin')) {
+    if (document.cookie !== '') {
+      const cookie = JSON.parse(decodeURIComponent(document.cookie).slice(11))
       this.setState({
-        username: localStorage.getItem('username'),
+        username: cookie.username,
+        role: cookie.role,
         userlogo: 'sign-out-alt',
         action: this.Disconnect
       });
@@ -92,14 +98,35 @@ export default class Header extends Component {
   render() {
     return (
       <div id="Header" style={headerStyle}>
-        <a href="/" id="logo" style={selectStyle}>
-          <FontAwesomeIcon icon={["fas","american-sign-language-interpreting"]}/>
-        </a>
-        <div id="searchbox">
-          <input type="text" style={searchboxStyle.text}/>
-          <button className="searchButton" onClick={this.SearchQuery} style={searchboxStyle.button} > <FontAwesomeIcon icon={["fas","search"]}/> </button>
+        <div id="headerLeft" style={headerLeft}>
+          <a href="/" id="logo" style={selectStyle}>
+            <FontAwesomeIcon icon={["fas","american-sign-language-interpreting"]}/>
+          </a>
+          {
+            (this.state.role === 'writer') ? (
+              <a href="/poster" id="logo" style={selectStyle}>
+                <FontAwesomeIcon icon={["fas","edit"]}/>
+              </a>
+            ) : ('')
+          }
         </div>
-        <button onClick={this.state.action} id='user' style={selectStyle}>
+        <div id="searchbox">
+          <input 
+            type="text" 
+            style={searchboxStyle.text} 
+            placeholder="Rechercher"
+          />
+          <button 
+            className="searchButton" 
+            onClick={this.SearchQuery} 
+            style={searchboxStyle.button} > <FontAwesomeIcon 
+            icon={["fas","search"]}
+          /> </button>
+        </div>
+        <button 
+          onClick={this.state.action} 
+          id='user' style={selectStyle}
+        >
           <p style={ userTextStyle }>{ this.state.username }</p>
           <FontAwesomeIcon icon={["fas",this.state.userlogo]} id="user"/>
         </button>

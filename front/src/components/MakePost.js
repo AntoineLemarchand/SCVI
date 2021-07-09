@@ -2,57 +2,57 @@ import React, {Component} from 'react';
 import axios from 'axios';
 
 const containerStyle = {
-  height: '90vh',
-  width: '100vw',
-  overflowY: 'scroll',
+  height: "90vh",
+  width: "100vw",
+  overflowY: "scroll",
 }
 
 const formStyle = {
-  margin: '5vh auto 5vh auto',
-  padding: '5vh',
-  borderRadius: '20px',
-  display: 'flex',
-  flexDirection: 'column',
-  width: '70vw',
-  backgroundColor: '#1d2021',
-  boxShadow: '5px 5px 10px black',
+  margin: "5vh auto 5vh auto",
+  padding: "5vh",
+  borderRadius: "20px",
+  display: "flex",
+  flexDirection: "column",
+  width: "70vw",
+  backgroundColor: "#1d2021",
+  boxShadow: "5px 5px 10px black",
 }
 
 const titleInputStyle = {
-  border: 'none',
-  borderRadius: '10px',
-  backgroundColor: '#504945',
-  color: '#ebdbb2',
-  height: '4vh',
-  fontSize: '3vh',
-  padding: '1vw',
+  border: "none",
+  borderRadius: "10px",
+  backgroundColor: "#504945",
+  color: "#ebdbb2",
+  height: "4vh",
+  fontSize: "3vh",
+  padding: "1vw",
 }
 
 const textInputStyle = {
-  marginTop: '5vh',
-  border: 'none',
-  borderRadius: '10px',
-  backgroundColor: '#504945',
-  color: '#ebdbb2',
-  fontSize: '2vh',
-  padding: '1vw',
+  marginTop: "5vh",
+  border: "none",
+  borderRadius: "10px",
+  backgroundColor: "#504945",
+  color: "#ebdbb2",
+  fontSize: "2vh",
+  padding: "1vw",
 }
 
 const buttonStyle = {
-  margin: '3vh 0 5vh auto',
-  border: 'none',
-  borderRadius: '10px',
-  minWidth: '20vw',
-  minHeight: '4vh',
-  fontSize: '2vh',
-  backgroundColor: '#fe8019',
-  color: '#1d2021',
+  margin: "3vh 0 5vh auto",
+  border: "none",
+  borderRadius: "10px",
+  minWidth: "20vw",
+  minHeight: "4vh",
+  fontSize: "2vh",
+  backgroundColor: "#fe8019",
+  color: "#1d2021",
 }
 
 export default class MakePost extends Component {
   
   state = {
-    userId: localStorage.getItem('userId'),
+    userId: '',
     poster: '',
     title: '',
     summary: '',
@@ -65,15 +65,21 @@ export default class MakePost extends Component {
 
   MakePost = (e) => {
     e.preventDefault();
+    const cookie = JSON.parse(decodeURIComponent(document.cookie).slice(11))
     const data = {
-      poster: this.state.userId,
+      poster: cookie.userID,
       title: this.state.title,
       body: this.state.body,      
       summary: this.state.summary,
     };
-    var url = "http://localhost:9000/makePost";
-    axios.post(url, data)
-      .catch(err => console.log(err));
+    if (cookie.role === 'writer') {
+      axios.post('http://localhost:9000/makePost', data)
+        .catch(err => alert(err));
+      alert(`${data.poster} - ${data.title} - ${data.body} - ${data.summary}`)
+      setTimeout(() => {window.location.href = '/'},3000)
+    } else {
+      alert('Vous ne pouvez pas poster, veuillez contacter un administrateur')
+    }
   };
 
   render() {
