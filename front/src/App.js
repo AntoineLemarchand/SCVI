@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import Routes from "./components/Route";
 import { Helmet } from "react-helmet";
 
-import Header from "./components/header";
-
 const bodyStyle = {
   width: "100vw",
   height: "100vh",
@@ -20,7 +18,6 @@ export default class App extends Component {
         <Helmet>
           <title>SCVI</title>
         </Helmet>
-        <Header />
         <Routes/>
       </div>
       

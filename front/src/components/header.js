@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 
 library.add(fas)
 
@@ -29,26 +30,8 @@ const selectStyle = {
   alignItems: "center",
   backgroundColor: "#1d2021",
   border: "none",
-  cursor: "pointer"
-}
-
-const searchboxStyle = {
-  text: {
-    border: "none",
-    borderRadius: "10px 0 0 10px",
-    height: "2.45vh",
-    width: "20vw",
-    padding: "1vh",
-    backgroundColor: "#504945",
-    color: "#ebebb2"
-  },
-  button: {
-    border: "none",
-    borderRadius: " 0 10px 10px 0",
-    height: "4.4vh",
-    backgroundColor: "#b8bb26"
-
-  }
+  cursor: "pointer",
+  textDecoration: "none"
 }
 
 const userTextStyle = {
@@ -62,36 +45,48 @@ export default class Header extends Component {
   state = {
     username: '',
     userlogo: '',
-    action: '',
     role: '',
   }
 
   Connect = (e) => {
     e.preventDefault();
-    window.location.href = '/connexion'
   }
 
   Disconnect = (e) => {
     e.preventDefault();
     document.cookie = "userData=;path='/';expires=Thu, 01 Jan 1970 00:00:00 GMT;";
-    document.location.reload();
+    setTimeout(document.location.reload(), 500);
   }
 
   componentDidMount() {
     if (document.cookie !== '') {
-      const cookie = JSON.parse(decodeURIComponent(document.cookie).slice(11))
+      const cookie = JSON.parse(decodeURIComponent(document.cookie).slice(9));
       this.setState({
         username: cookie.username,
         role: cookie.role,
         userlogo: 'sign-out-alt',
-        action: this.Disconnect
       });
     } else {
       this.setState({
         username: 'Anonyme',
         userlogo: 'sign-in-alt',
-        action: this.Connect
       })
+    }
+    this.forceUpdate()
+  }
+
+  userButton = () => {
+    if (document.cookie !== '') {
+
+      return <button onClick={this.Disconnect} style={selectStyle}>
+          <p style={ userTextStyle }>{ this.state.username }</p>
+          <FontAwesomeIcon icon={["fas",this.state.userlogo]} id="user"/>
+        </button>
+    } else {
+      return <NavLink to="/connexion" style={selectStyle}>
+          <p style={ userTextStyle }>{ this.state.username }</p>
+          <FontAwesomeIcon icon={["fas",this.state.userlogo]} id="user"/>
+        </NavLink>
     }
   }
 
@@ -99,37 +94,18 @@ export default class Header extends Component {
     return (
       <div id="Header" style={headerStyle}>
         <div id="headerLeft" style={headerLeft}>
-          <a href="/" id="logo" style={selectStyle}>
+          <NavLink to="/" id="logo" style={selectStyle}>
             <FontAwesomeIcon icon={["fas","american-sign-language-interpreting"]}/>
-          </a>
+          </NavLink>
           {
             (this.state.role === 'writer') ? (
-              <a href="/poster" id="logo" style={selectStyle}>
+              <NavLink to="/poster" id="logo" style={selectStyle}>
                 <FontAwesomeIcon icon={["fas","edit"]}/>
-              </a>
+              </NavLink>
             ) : ('')
           }
         </div>
-        <div id="searchbox">
-          <input 
-            type="text" 
-            style={searchboxStyle.text} 
-            placeholder="Rechercher"
-          />
-          <button 
-            className="searchButton" 
-            onClick={this.SearchQuery} 
-            style={searchboxStyle.button} > <FontAwesomeIcon 
-            icon={["fas","search"]}
-          /> </button>
-        </div>
-        <button 
-          onClick={this.state.action} 
-          id='user' style={selectStyle}
-        >
-          <p style={ userTextStyle }>{ this.state.username }</p>
-          <FontAwesomeIcon icon={["fas",this.state.userlogo]} id="user"/>
-        </button>
+        {this.userButton()}
       </div>
     )
   }

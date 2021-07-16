@@ -27,11 +27,11 @@ export default class Post extends Component {
   }
 
   componentDidMount() {
-    axios.post('http://localhost:9000/post', {PostID: this.state.PostID})
+    axios.post('https://blogapi.antoinelemarchand.xyz/post', {PostID: this.state.PostID})
       .then(res => {
         this.setState({ Post: res.data[0] })
       })
-    axios.post('http://localhost:9000/comments', { PostID: this.state.PostID })
+    axios.post('https://blogapi.antoinelemarchand.xyz/comments', { PostID: this.state.PostID })
       .then(res => {
         this.setState({ Comments: res.data })
       })

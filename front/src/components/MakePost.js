@@ -73,7 +73,7 @@ export default class MakePost extends Component {
       summary: this.state.summary,
     };
     if (cookie.role === 'writer') {
-      axios.post('http://localhost:9000/makePost', data)
+      axios.post('https://blogapi.antoinelemarchand.xyz/makePost', data)
         .catch(err => alert(err));
       alert(`${data.poster} - ${data.title} - ${data.body} - ${data.summary}`)
       setTimeout(() => {window.location.href = '/'},3000)

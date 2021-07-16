@@ -57,17 +57,17 @@ export default class register extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const url = "http://localhost:9000/inscription"
+    const url = "https://blogapi.antoinelemarchand.xyz/inscription"
     const data = {
       username: this.state.username,
       password: this.state.password,
     }
     const confirmPassword = this.state.confirmPassword
     if (data.password === confirmPassword) {
-      axios.post(url,data)
+      axios.post(url,data, { withCredentials: true })
         .then(() => {
           alert("Compte créé !")
-          window.location.href = "/connexion"
+          window.location.href = "/"
         })
         .catch(err => alert(err));
     } else {

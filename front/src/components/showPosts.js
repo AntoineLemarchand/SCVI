@@ -31,7 +31,7 @@ export default class ShowPosts extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:9000/posts')
+    axios.get('https://blogapi.antoinelemarchand.xyz/posts')
       .then(res => {
         const api = res.data;
         this.setState({ api })
@@ -42,18 +42,11 @@ export default class ShowPosts extends Component {
     return (
       <div id="Posts" style={PostsStyle}>
         {this.state.api.map(api =>
-        <Link key={api.PostID} to={{pathname: (`/post/${api.PostID}`), 
-          state: {
-            id: api.PostID, 
-            Title: api.PTitle, 
-            Writer: api.Writer, 
-            Date: Moment(api.Pdate).format('DD/MM/YYYY'),
-            Body: api.PBody
-          }}} 
+        <Link key={api.PostID} to={{pathname: (`/post/${api.PostID}`)}}
           style={PostStyle}>
 
           <h2 id="PostTitle">{api.PTitle}</h2>
-          <p id="author">{`Par ${api.Writer} le ${Moment(api.Pdate).format('DD/MM/YYYY')}`}</p>
+          <p id="author">{`Par ${api.Writer} le : ${Moment(api.PDate).format("DD/MM/YYYY")}`}</p>
           <p id="PostSummary">{api.PSummary}</p>
         
         </Link>

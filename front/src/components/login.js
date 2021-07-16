@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
+import Cookies from 'universal-cookie';
 
 const containerStyle = {
   display: "flex",
@@ -63,23 +64,24 @@ export default class register extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const url = "http://localhost:9000/connexion"
-    var data = {
+    const url = "https://blogapi.antoinelemarchand.xyz/connexion"
+    const data = {
       username: this.state.username,
       password: this.state.password,
     }
     axios.post(url, data, { withCredentials: true })
       .then( res => {
-        if (res === undefined) {
-          setTimeout(() => {
-            window.location.href = '/';
-          }, 3000)
+        if (res.data.err === undefined) {
+          const cookies = new Cookies();
+          cookies.set('userData', res.data, { secure: true })
+          this.props.history.push("/");
+          document.location.reload();
         } else {
           alert("Mauvais mot de passe ou nom d'utilisateur")
         }
       }
       )
-      .catch(err => console.log(err));
+      .catch(err => alert(err));
   }
 
   render() {

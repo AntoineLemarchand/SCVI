@@ -1,5 +1,5 @@
 const express = require('express');
-const db = require('../database');
+const db = require('../loginblogdb');
 const bcrypt = require('bcrypt');
 
 const router = express.Router();
@@ -20,12 +20,7 @@ router.post('/', (req, res) => {
               userID: rows[0].UserID,
               role: rows[0].Urole,
             }
-            const cookieConfig = {
-              maxAge: 60*60*1000,
-              sameSite: true,
-            }
-            res.cookie('userData', user, cookieConfig)
-            res.end()
+            res.send(user);
           } else {
             console.log(`Mauvais mot de passe de ${req.body.username}`)
             res.send({err: "mdp"})
@@ -33,8 +28,8 @@ router.post('/', (req, res) => {
         }
       })
     } else {
-      console.log("ag")
-      res.end()   
+      console.log(`no user ${username}`)
+      res.send({err: "no user"})   
     }
   })
 })

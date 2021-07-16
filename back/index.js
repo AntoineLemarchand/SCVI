@@ -1,7 +1,4 @@
 const express = require('express');
-const db = require('./routes/database');
-const bcrypt = require('bcrypt');
-const cors = require('cors')
 const cookieParser = require('cookie-parser');
 
 const fetchComments = require('./routes/Comment/fetchComments');
@@ -15,23 +12,20 @@ const register = require('./routes/Accounts/CreateAccount');
 const login = require('./routes/Accounts/Login')
 
 const app = express();
-const PORT = 9000;
-app.use(cors(
-  {
-    origin: 'http://localhost:3000',
-    optionSuccessStatus: 200,
-    credentials: true,
-  }
-));
+const PORT = 8080;
 
-const whitelist = ['/','/posts', '/post', '/makePost','/inscription', '/connexion', '/comments', '/postComment', 'makePost']
-app.all(whitelist, (req, res, next) => {
+const uriWhiteList = ['/','/posts', '/post', '/makePost','/inscription', '/connexion', '/comments', '/makeComment', 'makePost']
+const urlWhiteList = [ 'https://blog.antoinelemarchand.xyz' ];
+app.all(uriWhiteList, (req, res, next) => {
   res.header("Content-Type", 'application/json; charset=utf-8')
-  res.header("Access-Control-Allow-origin", 'http://localhost:3000');
-  res.header("Access-Control-Allow-Methods", "GET,POST,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "*");
+  res.header("Access-Control-Allow-Origin", urlWhiteList);
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-type, Accept");
+  res.header("Access-Control-Allow-Credentials", "true")
   next();
 });
+
+app.use(require('helmet')());
 
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false}));
@@ -47,5 +41,6 @@ app.use('/makeComment', makeComment);
 app.use('/inscription', register);
 app.use('/connexion', login)
 
-app.listen(PORT,
-  () => console.log(`Serveur en ligne sur https://localhost:${PORT}`))
+app.listen(PORT, () => {
+  console.log(`HTTP en ligne sur le PORT ${PORT}`)
+})

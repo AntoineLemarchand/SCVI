@@ -48,7 +48,7 @@ export default class CommentBox extends Component {
 
   componentDidMount() {
     if (document.cookie !== '') {
-      const cookie = JSON.parse(decodeURIComponent(document.cookie).slice(11))
+      const cookie = JSON.parse(decodeURIComponent(document.cookie).slice(9))
       this.setState({
         userId: cookie.userID,
         username: cookie.username,
@@ -69,9 +69,9 @@ export default class CommentBox extends Component {
       post: this.state.postId,
       cbody: this.state.cbody
     }
-    axios.post("http://localhost:9000/makeComment", data)
-      .catch(err => console.log(err))
-    setTimeout(()=>{window.location.reload()}, 1500);
+    axios.post("https://blogapi.antoinelemarchand.xyz/makeComment", data, { withCredentials: true })
+      .then(setTimeout(window.location.reload(),7000))
+      .catch(err => alert(err));
   }
 
   render() {
